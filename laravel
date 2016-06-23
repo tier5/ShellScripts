@@ -4,11 +4,20 @@ sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install git
 sudo apt-get install apache2
-sudo apt-get install  php5 libapache2-mod-php5 php5-mcrypt php-mbstring
-sudo apt-get install php-dom php-curl php5-fpm php5-cli
-sudo apt-get install mysql-server libapache2-mod-auth-mysql php5-mysql
-sudo mysql_install_db
+sudo apt-get install  php libapache2-mod-php php-mcrypt php-mbstring
+sudo apt-get install php-dom php-curl php-cli
+sudo apt-get install mysql-server php-mysql
 sudo mysql_secure_installation
 sudo apt-get install phpmyadmin
+echo 'Include /etc/phpmyadmin/apache.conf' >> /etc/apache2/apache2.conf
+sudo phpenmod mcrypt
+sudo a2enmod rewrite
 sudo service apache2 restart
+sudo curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+rm -rf /var/www/html
+sudo composer create-project laravel/laravel /var/www/laravel
+sudo mv laravel html/
+sudo chmod -R 777 /var/www/html/storage
+sudo chmod -R 777 /var/www/html/bootstrap
 echo "<?php phpinfo(); ?>" >> /var/www/html/phpinfo.php
