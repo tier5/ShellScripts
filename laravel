@@ -17,7 +17,7 @@ sudo curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
 rm -rf /var/www/html
 sudo composer create-project laravel/laravel /var/www/laravel
-sudo mv laravel html/
+sudo mv laravel html
 sudo chmod -R 777 /var/www/html/storage
 sudo chmod -R 777 /var/www/html/bootstrap
 echo "<?php phpinfo(); ?>" >> /var/www/html/phpinfo.php
