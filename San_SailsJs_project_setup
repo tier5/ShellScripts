@@ -1,0 +1,15 @@
+#!/bin/bash
+#Author: Santanu
+#Descripttion: This application will create and setup a new sailsjs project on ubuntu only
+
+sudo apt-get update && sudo apt-get upgrade
+cd /var/www/html;
+sudo apt-get install npm;
+sudo npm -g install nodejs;
+sudo npm -g install sails;
+echo "Please enter the Project name";
+read project_name;
+sails new $project_name;
+cd /var/www/html/$project_name;
+sails lift;
+

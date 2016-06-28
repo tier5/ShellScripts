@@ -1,0 +1,38 @@
+#!/bin/bash
+################################################
+#
+# Backup all MySQL databases in separate files and compress those.
+# The script will also create a folder with the 
+# current timestamp for each run under specific folder you mentioned
+# in your script direcoty
+# @author: Uday Chatterjee
+# @date: 2016-06-28
+#
+################################################
+echo "Enter Mysql Username:"
+read USER;
+echo "Enter Mysql Password:"
+read PASSWORD;
+echo "Enter folder where you want to store database:"
+read FOLDER;
+
+# Backup Directory - WITH TAILING SLASH IF PATH OTHER THEN '.'!
+OUTPUT=$FOLDER;
+# Create specific folder
+mkdir $OUTPUT;
+##### Execute the backup 
+TIMESTAMP=`date +%Y%m%d_%H%M%S`;
+mkdir $OUTPUT/$TIMESTAMP;
+OUTPUTDEST=$OUTPUT/$TIMESTAMP;
+echo "Starting MySQL Backup";
+echo `date`;
+databases=`mysql --user=$USER --password=$PASSWORD -e "SHOW DATABASES;
+" | tr -d "| " | grep -v Database`
+for db in $databases; do
+    if [[ "$db" != "information_schema" ]] && [[ "$db" != _* ]] && [[ "$db" != "mysql" ]] && [[ "$db" != "performance_schema" ]] ; then
+        echo "Dumping database: $db"
+        mysqldump --force --opt --user=$USER --password=$PASSWORD --databases $db > $OUTPUTDEST/dbbackup-$TIMESTAMP-$db.sql
+	gzip $OUTPUTDEST/dbbackup-$TIMESTAMP-$db.sql
+    fi
+done
+echo "Finished MySQL Backup and stored in:"$OUTPUTDEST;

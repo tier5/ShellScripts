@@ -22,19 +22,12 @@ while true; do
 			    read -p "Some untracked files are there. Press Yes to continue by adding all the files? Press y/n" yn 
 			    case $yn in
 	        		[Yy]* )
-						#git diff --name-only
-			    		#git ls-files --other --exclude-standard
-			    		#git add [[ git diff --name-only ]]
 			    		git add -A .
 			    		echo "Please enter the commit message";
 						read input_message
 						git commit -m "$input_message";
-						#git pull origin $branch_name;
-						#git push origin $branch_name;
 						git checkout $input_variable;
-						echo "You are now on $input_variable branch."
-						#echo "Thanks for using this application!!";
-						#exit;;
+						echo "You are now on $input_variable branch.";
 						read -p "Do you to want merge this branch to another branch? Press y/n" yn
 					    case $yn in
 					        [Yy]* ) 
@@ -43,14 +36,18 @@ while true; do
 								current_branch_name=$(git symbolic-ref -q HEAD);
 								echo $current_branch_name;
 				                git merge $input_new_branch;
-				                git merge --squash $input_new_branch;
-				                git commit;
-								#git pull origin $current_branch_name;
-								#git push origin $current_branch_name;
+				                git merge --squash $current_branch_name;
+				                echo "Please enter new commit message";
+								read input_commit_message;
+								git commit -m "$input_commit_message";
+								git pull origin $current_branch_name;
+								git push origin $current_branch_name;
 								echo "You have successfully pushed your code to remote branch!"
 								echo "Thanks for using this application!!";
 								exit;;
 					        [Nn]* ) 
+								git pull origin $current_branch_name;
+								git push origin $current_branch_name;
 								echo 'Thanks for using this application!!'; 
 								exit;;
 					        * ) echo 'Please answer yes or no.';;
