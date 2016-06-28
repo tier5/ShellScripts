@@ -2,14 +2,15 @@
 #Author: Santanu
 #Descripttion: This application will check all your modified files and untracked files and will commit your code. And also it'll merge your code to remote branch and push your code to remote branch.
 
+echo "Welcome to our application.";
+echo "Please provide full path for your project folder.";
+read input__folder_path
+cd $input__folder_path
+echo "Here is your list of all branches.";
+git branch
 
 while true; do
-	echo "Welcome to our application.";
-	echo "Please provide full path for your project folder.";
-    read input__folder_path
-    cd $input__folder_path
-    echo "Here is your list of all branches.";
-    git branch
+	
     read -p "Do you to checkout to another branch? Press y/n" yn
     case $yn in
         [Yy]* ) echo "Please enter the branch name";
