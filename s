@@ -2,6 +2,7 @@
 #Author: Santanu
 #Descripttion: This application will check all your modified files and untracked files and will commit your code. And also it'll merge your code to remote branch and push your code to remote branch.
 
+
 while true; do
 	echo "Welcome to our application.";
 	echo "Please provide full path for your project folder.";
@@ -37,6 +38,7 @@ while true; do
 						read -p "Do you to want merge this branch to another branch? Press y/n" yn
 					    case $yn in
 					        [Yy]* ) 
+								cd $input__folder_path;
 								echo "Please enter the branch name";
 				                read input_new_branch;
 								current_branch_name=$(git symbolic-ref -q HEAD);
