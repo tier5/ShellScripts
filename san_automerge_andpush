@@ -43,8 +43,8 @@ while true; do
 								current_branch_name=$(git symbolic-ref -q HEAD);
 								echo $current_branch_name;
 				                git merge $input_new_branch;
-				                git merge --squash $input_new_branch;
-				                git commit -m 'merged localbranch to remote branch';
+				                git merge --squash $current_branch_name;
+				                git commit;
 								git pull origin $current_branch_name;
 								git push origin $current_branch_name;
 								echo "You have successfully pushed your code to remote branch!"
