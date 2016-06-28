@@ -1,0 +1,18 @@
+#!/bin/bash
+#Author: Santanu
+#Descripttion: This application will create and setup a new laravel and angular project on ubuntu only
+
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install apache2
+sudo apt-get install mysql-server php5-mysql php5-cgi php5-cli php5-curl
+sudo mysql_secure_installation
+cd /var/www/html;
+sudo apt-get install npm;
+sudo npm -g install nodejs;
+sudo npm -g install sails;
+echo "Please enter the Project name";
+read project_name;
+sails new $project_name;
+cd /var/www/html/$project_name;
+sails lift;
+

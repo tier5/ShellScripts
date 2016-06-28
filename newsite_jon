@@ -1,0 +1,11 @@
+#!/bin/bash
+cd /var/www
+sudo mkdir /var/www/$1
+sudo chown -R ubuntu.www-data /var/www/$1
+sudo echo "
+welcome to $1
+" > /var/www/$1/index.html
+sudo echo "
+Something is here
+" > /etc/apache2/sites-available/$1.conf
+
