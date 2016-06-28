@@ -44,13 +44,15 @@ while true; do
 								echo $current_branch_name;
 				                git merge $input_new_branch;
 				                git merge --squash $input_new_branch;
-				                git commit;
+				                git commit -m 'merged localbranch to remote branch';
 								git pull origin $current_branch_name;
 								git push origin $current_branch_name;
 								echo "You have successfully pushed your code to remote branch!"
 								echo "Thanks for using this application!!";
 								exit;;
 					        [Nn]* ) 
+								git pull origin $current_branch_name;
+								git push origin $current_branch_name;
 								echo 'Thanks for using this application!!'; 
 								exit;;
 					        * ) echo 'Please answer yes or no.';;
