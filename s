@@ -28,8 +28,8 @@ while true; do
 		    		echo "Please enter the commit message";
 					read input_message
 					git commit -m "$input_message";
-					git pull origin $branch_name;
-					git push origin $branch_name;
+					# git pull origin $branch_name;
+					# git push origin $branch_name;
 					git checkout $input_variable;
 					echo "You are now on $input_variable branch."
 					#echo "Thanks for using this application!!";
