@@ -37,7 +37,9 @@ while true; do
 								echo $current_branch_name;
 				                git merge $input_new_branch;
 				                git merge --squash $current_branch_name;
-				                git commit;
+				                echo "Please enter new commit message";
+								read input_commit_message;
+								git commit -m "$input_commit_message";
 								git pull origin $current_branch_name;
 								git push origin $current_branch_name;
 								echo "You have successfully pushed your code to remote branch!"
