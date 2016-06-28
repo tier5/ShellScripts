@@ -22,19 +22,12 @@ while true; do
 			    read -p "Some untracked files are there. Press Yes to continue by adding all the files? Press y/n" yn 
 			    case $yn in
 	        		[Yy]* )
-						#git diff --name-only
-			    		#git ls-files --other --exclude-standard
-			    		#git add [[ git diff --name-only ]]
 			    		git add -A .
 			    		echo "Please enter the commit message";
 						read input_message
 						git commit -m "$input_message";
-						#git pull origin $branch_name;
-						#git push origin $branch_name;
 						git checkout $input_variable;
-						echo "You are now on $input_variable branch."
-						#echo "Thanks for using this application!!";
-						#exit;;
+						echo "You are now on $input_variable branch.";
 						read -p "Do you to want merge this branch to another branch? Press y/n" yn
 					    case $yn in
 					        [Yy]* ) 
