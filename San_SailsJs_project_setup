@@ -3,6 +3,8 @@
 #Descripttion: This application will create and setup a new sailsjs project
 
 cd /var/www/html
+sudo npm -g install nodejs;
+sudo npm -g install npm;
 sudo npm -g install sails;
 echo "Please enter the Project name";
 read project_name;
