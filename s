@@ -21,20 +21,20 @@ while true; do
 			    read -p "Some untracked files are there. Press Yes to continue by adding all the files? Press y/n" yn 
 			    case $yn in
 	        		[Yy]* )
-					#git diff --name-only
-		    		#git ls-files --other --exclude-standard
-		    		#git add [[ git diff --name-only ]]
-		    		git add -A .
-		    		echo "Please enter the commit message";
-					read input_message
-					git commit -m "$input_message";
-					# git pull origin $branch_name;
-					# git push origin $branch_name;
-					git checkout $input_variable;
-					echo "You are now on $input_variable branch."
-					#echo "Thanks for using this application!!";
-					#exit;;
-					while read -p "Do you to want merge this branch to another branch? Press y/n" yn; do
+						#git diff --name-only
+			    		#git ls-files --other --exclude-standard
+			    		#git add [[ git diff --name-only ]]
+			    		git add -A .
+			    		echo "Please enter the commit message";
+						read input_message
+						git commit -m "$input_message";
+						git pull origin $branch_name;
+						git push origin $branch_name;
+						git checkout $input_variable;
+						echo "You are now on $input_variable branch."
+						#echo "Thanks for using this application!!";
+						#exit;;
+						read -p "Do you to want merge this branch to another branch? Press y/n" yn
 					    case $yn in
 					        [Yy]* ) 
 								echo "Please enter the branch name";
@@ -52,13 +52,11 @@ while true; do
 								exit;;
 					        * ) echo 'Please answer yes or no.';;
 					    esac
-				    	break
-				    done
-					# [Nn]* ) 
-					# 	echo 'Sorry we can not proceed further! You have to add all files';;
-					# 	exit;;
-				 #    * ) 
-					# 	echo 'Please answer yes or no. Press y for Yes and n for No.';;
+				    	;;
+					[Nn]* ) 
+						echo 'Sorry we can not proceed further! You have to add all files';;
+				    * ) 
+						echo 'Please answer yes or no. Press y for Yes and n for No.';;
 		    	esac
 		    done
 		elif test "$ec" = 1; then
