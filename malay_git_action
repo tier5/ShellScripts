@@ -1,0 +1,38 @@
+#!/bin/bash
+#Author: Malay 
+#Descripttion: This is a script which performs git actions. 
+
+echo "Copy this script to the Project Folder......."
+echo "This Script does some git action."
+echo "Select any action:"
+echo "1.Clone a Repo from git."
+echo "2.Create a new git branch."
+echo "3.Remove Particuller Files form git status."
+echo "Enter your choice: "
+read choice
+
+case "$choice" in
+   "1") 
+echo "give the URL :"
+git clone $url
+echo "You have clone the git repo to your local PC."
+;;
+"2") 
+echo "Branch Name: "
+read branch_name
+git checkout -b $branch_name
+git branch
+echo "Your New Git Branch Name is $branch_name"
+   ;;
+"3")
+git status
+echo "This is the list of all git files"
+echo "enter the file path to remove this files from the git status."
+read filepath
+git checkout -- $filepath
+;;
+esac
+
+
+
+
