@@ -3,20 +3,55 @@
 #Descripttion: This application will check all your modified files and untracked files and will commit your code. And also it'll merge your code to remote branch and push your code to remote branch.
 
 
+#Push all the latest code to remote repository
+function pullandpush {
+	read -p "Do you to want push this branch to remote branch? Press y/n" yn
+    case $yn in
+        [Yy]* ) 
+			git pull origin $current_branch_name;
+			git push origin $current_branch_name;
+			echo 'Thanks for using this application!!'; 
+			exit
+			;;
+        [Nn]* ) 
+			echo 'Thanks for using this application!!'; 
+			exit
+			;;
+        * ) echo 'Please answer yes or no.';;
+    esac
+}
+
+#After merge, pull, push checkout to new branch
+function checkouttoanotherbranch {
+	read -p "Do you to checkout to another branch? Press y/n" yn
+    case $yn in
+        [Yy]* ) echo "Please enter the branch name";
+                read input_variable;
+                maincontrolmethod
+				git checkout $input_variable;
+                ;;
+		
+        [Nn]* )
+				maincontrolmethod
+                ;;
+        * ) echo "Please answer yes or no.";;
+    esac
+}
+
+
 #This method is for after merging two branch and push the code to remote branch after pulling the latest
 function mergebranchandpush {
-	git checkout $input_variable;
 	echo "You are now on $input_variable branch.";
 	read -p "Do you to want merge this branch to another branch? Press y/n" yn
     case $yn in
         [Yy]* ) 
-			merger
+			checkouttoanotherbranch
+			mergebranchandpush
 			exit;;
         [Nn]* ) 
-			git pull origin $current_branch_name;
-			git push origin $current_branch_name;
-			echo 'Thanks for using this application!!'; 
-			exit;;
+			pullandpush
+			exit
+			;;
         * ) echo 'Please answer yes or no.';;
     esac
 }
@@ -28,13 +63,7 @@ function merger {
 	current_branch_name=$(git symbolic-ref -q HEAD);
 	echo $current_branch_name;
     git merge $input_new_branch;
-    #git merge --squash $current_branch_name;
-	read input_commit_message;
-	git commit -m "$input_commit_message";
-	git pull origin $current_branch_name;
-	git push origin $current_branch_name;
-	echo "You have successfully pushed your code to remote branch!"
-	echo "Thanks for using this application!!";
+    maincontrolmethod
 }
 
 
@@ -61,21 +90,7 @@ function maincontrolmethod {
 							read input_mergerhead;
 							git reset --soft $input_mergerhead;
 							git commit --amend;
-							echo "You are now on $input_variable branch.";
-							read -p "Do you to want merge this branch to another branch? Press y/n" yn
-						    case $yn in
-						        [Yy]* ) 
-									merger
-									exit
-									;;
-						        [Nn]* ) 
-									git pull origin $current_branch_name;
-									git push origin $current_branch_name;
-									echo 'Thanks for using this application!!'; 
-									exit
-									;;
-						        * ) echo 'Please answer yes or no.';;
-						    esac
+							mergebranchandpush
 						    ;;
 				        [Nn]* ) 
 							mergebranchandpush
@@ -91,12 +106,13 @@ function maincontrolmethod {
 	    	esac
 	    done
 	elif test "$ec" = 1; then
-	    echo no untracked files
+	    mergebranchandpush
 	else
 	    echo error from ls-files
 	fi
 }
 
+# This is the start point of scripts main method 
 while true; do
 	echo "Welcome to our application.";
 	echo "Please provide full path for your project folder.";
@@ -104,17 +120,5 @@ while true; do
     cd $input__folder_path
     echo "Here is your list of all branches.";
     git branch
-    read -p "Do you to checkout to another branch? Press y/n" yn
-    case $yn in
-        [Yy]* ) echo "Please enter the branch name";
-                read input_variable;
-				git checkout $input_variable;
-                maincontrolmethod
-                ;;
-		
-        [Nn]* )
-				maincontrolmethod
-                ;;
-        * ) echo "Please answer yes or no.";;
-    esac
+    checkouttoanotherbranch
 done
