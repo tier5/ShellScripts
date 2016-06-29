@@ -4,45 +4,48 @@
 
 #Push all the latest code to remote repository
 function pullandpush {
-	read -p "Do you to want push this branch to remote branch? Press y/n" yn
+	echo "$(tput setaf 1) Do you to want push this branch to remote branch? Press y/n :$(tput sgr0)" yn
+    read yn
     case $yn in
         [Yy]* ) 
-			read -p "Do you wanna merge all the commit message together in one?Press Yes to continue by adding all the files? Press y/n" yn 
+			echo -n "$(tput setaf 1)Do you wanna merge all the commit message together in one?Press Yes to continue by adding all the files? Press y/n :$(tput sgr0)" 
+	        read yn
 	        case $yn in
 		        [Yy]* ) 
-					echo "Here is your commit log";
+					echo -n "$(tput setaf 1)Here is your commit log";
 					git log --oneline;
-					echo "Please copy and paste the commit head that you want to make the commit merger head";
+					echo -n "$(tput setaf 1)Please copy and paste the commit head that you want to make the commit merger head :$(tput sgr0)";
 					read input_mergerhead;
 					git reset --soft $input_mergerhead;
 					git commit --amend;
 					git pull origin $current_branch_name;
 					git push origin $current_branch_name;
-					echo 'Thanks for using this application!!'
+					echo -n '$(tput setaf 1)Thanks for using this application!!'
 					exit
 					;;
 		        [Nn]* ) 
 					git pull origin $current_branch_name;
 					git push origin $current_branch_name;
-					echo 'Thanks for using this application!!'
+					echo '$(tput setaf 1)Thanks for using this application!!'
 					exit
 					;;
-		        * )	echo 'Please answer yes or no.';;
+		        * )	echo '$(tput setaf 1)Please answer yes or no.';;
 		    esac
 		    ;;
         [Nn]* ) 
-			echo 'Thanks for using this application!!'; 
+			echo '$(tput setaf 1)Thanks for using this application!!'; 
 			exit
 			;;
-        * ) echo 'Please answer yes or no.';;
+        * ) echo '$(tput setaf 1)Please answer yes or no.';;
     esac
 }
 
 #After merge, pull, push checkout to new branch
 function checkouttoanotherbranch {
-	read -p "Do you to checkout to another branch? Press y/n" yn
+	echo -n "$(tput setaf 1)Do you to checkout to another branch? Press y/n : $(tput sgr0)"
+	read yn
     case $yn in
-        [Yy]* ) echo "Please enter the branch name";
+        [Yy]* ) echo "$(tput setaf 1)Please enter the branch name";
                 read input_variable;
 				git checkout $input_variable;
                 ;;
@@ -50,14 +53,15 @@ function checkouttoanotherbranch {
         [Nn]* )
 				maincontrolmethod
                 ;;
-        * ) echo "Please answer yes or no.";;
+        * ) echo "$(tput setaf 1)Please answer yes or no.";;
     esac
 }
 
 
 #This method is for after merging two branch and push the code to remote branch after pulling the latest
 function mergebranchandpush {
-	read -p "Do you to want merge this branch to another branch? Press y/n" yn
+	echo -n "$(tput setaf 1)Do you to want merge this branch to another branch? Press y/n : $(tput sgr0)"
+    read yn
     case $yn in
         [Yy]* )
 			merger
@@ -66,13 +70,13 @@ function mergebranchandpush {
 			pullandpush
 			exit
 			;;
-        * ) echo 'Please answer yes or no.';;
+        * ) echo '$(tput setaf 1)Please answer yes or no.';;
     esac
 }
 
 #This method will merge two branch
 function merger {
-	echo "Please enter the branch name";
+	echo -n "$(tput setaf 1)Please enter the branch name : $(tput sgr0)";
     read input_new_branch;
 	current_branch_name=$(git symbolic-ref -q HEAD);
 	echo $current_branch_name;
@@ -90,37 +94,39 @@ function maincontrolmethod {
 		let count_changed=${count_changed}+1
 	}
 	if [ -z $count_changed ]
-	    then echo "Your Branch is already up-to-date! Nothing to Commit or Push"
+	    then echo -n "$(tput setaf 1)Your Branch is already up-to-date! Nothing to Commit or Push"
 	    mergebranchandpush
 	else
-		echo "Modified file number count is $count_changed"
+		echo -n "$(tput setaf 1)Modified file number count is $count_changed"
 		while true; do
-		    read -p "Some untracked files are there. Press Yes to continue by adding all the files? Press y/n" yn 
+		    echo -n "$(tput setaf 1)Some untracked files are there. Press Yes to continue by adding all the files? Press y/n : $(tput sgr0)"
+		    read yn
 		    case $yn in
         		[Yy]* )
 		    		git add -A .
-		    		echo "Please enter the commit message";
+		    		echo -n "$(tput setaf 1)Please enter the commit message : $(tput sgr0)";
 					read input_message
 					git commit -m "$input_message";
 					mergebranchandpush
 					;;
 				[Nn]* ) 
-					read -p echo 'Remove all files or stash them?' yn 
+					echo -n '$(tput setaf 1)Remove all files or stash them? : $(tput sgr0)'
+			    	read yn
 			    	case $yn in
 						[Yy]* )
 							sudo git stash
 							exit
 							;;
 						[Nn]* ) 
-							echo "Sorry we can not proceed further!"
+							echo "$(tput setaf 1)Sorry we can not proceed further!"
 							exit
 							;;
 					    * ) 
-							echo 'Please answer yes or no. Press y for Yes and n for No.';;
+							echo '$(tput setaf 1)Please answer yes or no. Press y for Yes and n for No.';;
 					esac
 					;;
 			    * ) 
-					echo 'Please answer yes or no. Press y for Yes and n for No.';;
+					echo '$(tput setaf 1)Please answer yes or no. Press y for Yes and n for No.';;
 	    	esac
 	    done
 	fi
@@ -128,11 +134,11 @@ function maincontrolmethod {
 
 # This is the start point of scripts main method 
 while true; do
-	echo "Welcome to our application.";
-	echo "Please provide full path for your project folder.";
+	echo "$(tput setaf 1)Welcome to our application.";
+	echo "$(tput setaf 1)Please provide full path for your project folder. :$(tput sgr0)";
     read input__folder_path
     cd $input__folder_path
-    echo "Here is your list of all branches.";
+    echo "$(tput setaf 1)Here is your list of all branches.";
     git branch
     maincontrolmethod
 done
