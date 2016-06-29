@@ -67,6 +67,7 @@ function merger {
 }
 
 
+
 #This is the main body of our main controller method
 function maincontrolmethod {
 	branch_name=$(git symbolic-ref -q HEAD);
@@ -105,7 +106,20 @@ function maincontrolmethod {
 					mergebranchandpush
 					;;
 				[Nn]* ) 
-					echo 'Sorry we can not proceed further! You have to add all files';;
+					read -p echo 'Remove all files or stash them?' yn 
+			    	case $yn in
+						[Yy]* )
+							sudo git stash
+							exit
+							;;
+						[Nn]* ) 
+							echo "Sorry we can not proceed further!"
+							exit
+							;;
+					    * ) 
+							echo 'Please answer yes or no. Press y for Yes and n for No.';;
+					esac
+					;;
 			    * ) 
 					echo 'Please answer yes or no. Press y for Yes and n for No.';;
 	    	esac
