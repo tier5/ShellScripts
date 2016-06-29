@@ -50,7 +50,6 @@ function mergebranchandpush {
 	read -p "Do you to want merge this branch to another branch? Press y/n" yn
     case $yn in
         [Yy]* ) 
-			checkouttoanotherbranch
 			mergebranchandpush
 			exit;;
         [Nn]* ) 
