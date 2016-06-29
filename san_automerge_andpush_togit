@@ -4,7 +4,7 @@
 
 #Push all the latest code to remote repository
 function pullandpush {
-	echo "$(tput setaf 1) Do you to want push this branch to remote branch? Press y/n :$(tput sgr0)" yn
+	echo -n "$(tput setaf 1) Do you to want push this branch to remote branch? Press y/n :$(tput sgr0)"
     read yn
     case $yn in
         [Yy]* ) 
@@ -26,10 +26,10 @@ function pullandpush {
 		        [Nn]* ) 
 					git pull origin $current_branch_name;
 					git push origin $current_branch_name;
-					echo '$(tput setaf 1)Thanks for using this application!!'
+					echo -n '$(tput setaf 1)Thanks for using this application!!'
 					exit
 					;;
-		        * )	echo '$(tput setaf 1)Please answer yes or no.';;
+		        * )	echo -n '$(tput setaf 1)Please answer yes or no.';;
 		    esac
 		    ;;
         [Nn]* ) 
@@ -97,7 +97,6 @@ function maincontrolmethod {
 	    then echo -n "$(tput setaf 1)Your Branch is already up-to-date! Nothing to Commit or Push"
 	    mergebranchandpush
 	else
-		echo -n "$(tput setaf 1)Modified file number count is $count_changed"
 		while true; do
 		    echo -n "$(tput setaf 1)Some untracked files are there. Press Yes to continue by adding all the files? Press y/n : $(tput sgr0)"
 		    read yn
@@ -138,7 +137,7 @@ while true; do
 	echo "$(tput setaf 1)Please provide full path for your project folder. :$(tput sgr0)";
     read input__folder_path
     cd $input__folder_path
-    echo "$(tput setaf 1)Here is your list of all branches.";
+    echo -n "$(tput setaf 1)Here is your list of all branches.";
     git branch
     maincontrolmethod
 done
