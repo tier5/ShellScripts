@@ -71,8 +71,13 @@ function merger {
 function maincontrolmethod {
 	branch_name=$(git symbolic-ref -q HEAD);
 	echo $branch_name;
-    git status --porcelain . >/dev/null 2>&1; ec=$?
-	if test "$ec" = 0; then
+	git status -s | grep -v '??' &> /dev/null && {
+		let count_changed=${count_changed}+1
+	}
+	echo "Modified file number is $count_changed"
+	if [ $count_changed -eq 0 ]
+	    then echo "Your Branch is already up-to-date! Nothing to Commit or Push"
+	else
 		while true; do
 		    read -p "Some untracked files are there. Press Yes to continue by adding all the files? Press y/n" yn 
 		    case $yn in
@@ -105,10 +110,6 @@ function maincontrolmethod {
 					echo 'Please answer yes or no. Press y for Yes and n for No.';;
 	    	esac
 	    done
-	elif test "$ec" = 1; then
-	    mergebranchandpush
-	else
-	    echo error from ls-files
 	fi
 }
 
