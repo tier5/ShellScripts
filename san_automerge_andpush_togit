@@ -2,6 +2,8 @@
 #Author: Santanu
 #Descripttion: This application will check all your modified files and untracked files and will commit your code. And also it'll merge your code to remote branch and push your code to remote branch.
 
+#initialising variables
+let count_changed=0
 
 #This method is for after merging two branch and push the code to remote branch after pulling the latest
 function mergebranchandpush {
@@ -42,9 +44,18 @@ function merger {
 function maincontrolmethod {
 	branch_name=$(git symbolic-ref -q HEAD);
 	echo $branch_name;
-    git status --porcelain . >/dev/null 2>&1; ec=$?
-	if test "$ec" = 0; then
-		while true; do
+    #git status --porcelain . >/dev/null 2>&1; ec=$?
+    git status -s | grep -v '??' &> /dev/null && {
+		# echo -e "\n\n \E[1;31m ${dir}\E[0m"
+		# git branch -vvra
+		# git status -s | grep -v '??'
+		let count_changed=${count_changed}+1
+	};
+	echo $count_changed;
+	if [$count_changed = 0]; then
+	    echo error from ls-files
+	else
+	    while true; do
 		    read -p "Some untracked files are there. Press Yes to continue by adding all the files? Press y/n" yn 
 		    case $yn in
         		[Yy]* )
@@ -90,10 +101,6 @@ function maincontrolmethod {
 					echo 'Please answer yes or no. Press y for Yes and n for No.';;
 	    	esac
 	    done
-	elif test "$ec" = 1; then
-	    echo no untracked files
-	else
-	    echo error from ls-files
 	fi
 }
 
