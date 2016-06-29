@@ -73,7 +73,7 @@ function maincontrolmethod {
 		let count_changed=${count_changed}+1
 	}
 	echo "Modified file number is $count_changed"
-	if [ $count_changed -eq 0 ]
+	if [ -z $count_changed ]
 	    then echo "Your Branch is already up-to-date! Nothing to Commit or Push"
 	else
 		while true; do
