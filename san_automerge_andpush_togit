@@ -88,11 +88,11 @@ function maincontrolmethod {
 	git status -s | grep -v '??' &> /dev/null && {
 		let count_changed=${count_changed}+1
 	}
-	echo "Modified file number is $count_changed"
-	if [ $count_changed -eq 0 ]
+	if [ -z $count_changed ]
 	    then echo "Your Branch is already up-to-date! Nothing to Commit or Push"
 	    mergebranchandpush
 	else
+		echo "Modified file number count is $count_changed"
 		while true; do
 		    read -p "Some untracked files are there. Press Yes to continue by adding all the files? Press y/n" yn 
 		    case $yn in
