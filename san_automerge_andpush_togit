@@ -2,7 +2,6 @@
 #Author: Santanu
 #Descripttion: This application will check all your modified files and untracked files and will commit your code. And also it'll merge your code to remote branch and push your code to remote branch.
 
-
 #Push all the latest code to remote repository
 function pullandpush {
 	read -p "Do you to want push this branch to remote branch? Press y/n" yn
@@ -17,18 +16,20 @@ function pullandpush {
 					read input_mergerhead;
 					git reset --soft $input_mergerhead;
 					git commit --amend;
-					mergebranchandpush
-				    ;;
+					git pull origin $current_branch_name;
+					git push origin $current_branch_name;
+					echo 'Thanks for using this application!!'
+					exit
+					;;
 		        [Nn]* ) 
-					mergebranchandpush
+					git pull origin $current_branch_name;
+					git push origin $current_branch_name;
+					echo 'Thanks for using this application!!'
+					exit
 					;;
 		        * )	echo 'Please answer yes or no.';;
 		    esac
-			git pull origin $current_branch_name;
-			git push origin $current_branch_name;
-			echo 'Thanks for using this application!!'; 
-			exit
-			;;
+		    ;;
         [Nn]* ) 
 			echo 'Thanks for using this application!!'; 
 			exit
