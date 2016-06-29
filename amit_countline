@@ -1,18 +1,10 @@
 #!/bin/bash
 #Count line number of a file.
-exec 10<&0
-exec < $1
-in=$1
-file="example.txt"
-let count=0
-while read LINE
-do
-    ((count++))
-    echo $LINE > $file
-    if [ $? -ne 0 ] 
-     then echo "Error to read file:  ${file};"
-    fi
-done
+git status -s | grep -v '??' &> /dev/null && {
+	echo -e "\n\n \E[1;31m ${dir}\E[0m"
+	git branch -vvra
+	git status -s | grep -v '??'
+	let count_changed=${count_changed}+1
+}
 
-echo "Total Lines : $count"
-exec 0<&10 10<&-
+echo -ne "${count_changed} have changes, "
