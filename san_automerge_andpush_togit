@@ -75,6 +75,8 @@ function maincontrolmethod {
 	echo "Modified file number is $count_changed"
 	if [ -z $count_changed ]
 	    then echo "Your Branch is already up-to-date! Nothing to Commit or Push"
+	    exit
+	    ;;
 	else
 		while true; do
 		    read -p "Some untracked files are there. Press Yes to continue by adding all the files? Press y/n" yn 
