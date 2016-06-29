@@ -10,17 +10,13 @@ function pullandpush {
         [Yy]* ) 
 			git pull origin $current_branch_name;
 			git push origin $current_branch_name;
-			if [ -z $input_variable ]; then 
-				git checkout $input_variable
-			fi
+			checkouttoanotherbranch
 			echo 'Thanks for using this application!!';
 			exit
 			;;
         [Nn]* ) 
 			echo 'Thanks for using this application!!';
-			if [ -z $input_variable ]; then
-				git checkout $input_variable;
-			fi
+			checkouttoanotherbranch
 			exit
 			;;
         * ) echo 'Please answer yes or no.';;
@@ -125,5 +121,5 @@ while true; do
     cd $input__folder_path
     echo "Here is your list of all branches.";
     git branch
-    checkouttoanotherbranch
+    maincontrolmethod
 done
