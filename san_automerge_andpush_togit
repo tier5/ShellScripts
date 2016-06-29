@@ -10,13 +10,11 @@ function pullandpush {
         [Yy]* ) 
 			git pull origin $current_branch_name;
 			git push origin $current_branch_name;
-			checkouttoanotherbranch
-			echo 'Thanks for using this application!!';
+			echo 'Thanks for using this application!!'; 
 			exit
 			;;
         [Nn]* ) 
-			echo 'Thanks for using this application!!';
-			checkouttoanotherbranch
+			echo 'Thanks for using this application!!'; 
 			exit
 			;;
         * ) echo 'Please answer yes or no.';;
@@ -29,7 +27,8 @@ function checkouttoanotherbranch {
     case $yn in
         [Yy]* ) echo "Please enter the branch name";
                 read input_variable;
-                git checkout $input_variable
+                maincontrolmethod
+				git checkout $input_variable;
                 ;;
 		
         [Nn]* )
@@ -42,12 +41,10 @@ function checkouttoanotherbranch {
 
 #This method is for after merging two branch and push the code to remote branch after pulling the latest
 function mergebranchandpush {
-	echo "You are now on $input_variable branch.";
 	read -p "Do you to want merge this branch to another branch? Press y/n" yn
     case $yn in
-        [Yy]* ) 
+        [Yy]* )
 			merger
-			mergebranchandpush
 			exit;;
         [Nn]* ) 
 			pullandpush
@@ -64,8 +61,9 @@ function merger {
 	current_branch_name=$(git symbolic-ref -q HEAD);
 	echo $current_branch_name;
     git merge $input_new_branch;
-    maincontrolmethod
+    checkouttoanotherbranch
 }
+
 
 
 #This is the main body of our main controller method
@@ -106,7 +104,20 @@ function maincontrolmethod {
 					mergebranchandpush
 					;;
 				[Nn]* ) 
-					echo 'Sorry we can not proceed further! You have to add all files';;
+					read -p echo 'Remove all files or stash them?' yn 
+			    	case $yn in
+						[Yy]* )
+							sudo git stash
+							exit
+							;;
+						[Nn]* ) 
+							echo "Sorry we can not proceed further!"
+							exit
+							;;
+					    * ) 
+							echo 'Please answer yes or no. Press y for Yes and n for No.';;
+					esac
+					;;
 			    * ) 
 					echo 'Please answer yes or no. Press y for Yes and n for No.';;
 	    	esac
