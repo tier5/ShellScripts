@@ -10,11 +10,17 @@ function pullandpush {
         [Yy]* ) 
 			git pull origin $current_branch_name;
 			git push origin $current_branch_name;
-			echo 'Thanks for using this application!!'; 
+			if [ -z $input_variable ]; then 
+				git checkout $input_variable
+			fi
+			echo 'Thanks for using this application!!';
 			exit
 			;;
         [Nn]* ) 
-			echo 'Thanks for using this application!!'; 
+			echo 'Thanks for using this application!!';
+			if [ -z $input_variable ]; then
+				git checkout $input_variable;
+			fi
 			exit
 			;;
         * ) echo 'Please answer yes or no.';;
@@ -28,7 +34,6 @@ function checkouttoanotherbranch {
         [Yy]* ) echo "Please enter the branch name";
                 read input_variable;
                 maincontrolmethod
-				git checkout $input_variable;
                 ;;
 		
         [Nn]* )
