@@ -27,7 +27,6 @@ function checkouttoanotherbranch {
     case $yn in
         [Yy]* ) echo "Please enter the branch name";
                 read input_variable;
-                maincontrolmethod
 				git checkout $input_variable;
                 ;;
 		
