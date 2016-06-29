@@ -8,11 +8,29 @@ function pullandpush {
 	read -p "Do you to want push this branch to remote branch? Press y/n" yn
     case $yn in
         [Yy]* ) 
-			git pull origin $current_branch_name;
-			git push origin $current_branch_name;
-			echo 'Thanks for using this application!!'; 
-			exit
-			;;
+			read -p "Do you wanna merge all the commit message together in one?Press Yes to continue by adding all the files? Press y/n" yn 
+	        case $yn in
+		        [Yy]* ) 
+					echo "Here is your commit log";
+					git log --oneline;
+					echo "Please copy and paste the commit head that you want to make the commit merger head";
+					read input_mergerhead;
+					git reset --soft $input_mergerhead;
+					git commit --amend;
+					git pull origin $current_branch_name;
+					git push origin $current_branch_name;
+					echo 'Thanks for using this application!!'
+					exit
+					;;
+		        [Nn]* ) 
+					git pull origin $current_branch_name;
+					git push origin $current_branch_name;
+					echo 'Thanks for using this application!!'
+					exit
+					;;
+		        * )	echo 'Please answer yes or no.';;
+		    esac
+		    ;;
         [Nn]* ) 
 			echo 'Thanks for using this application!!'; 
 			exit
@@ -72,10 +90,11 @@ function maincontrolmethod {
 	git status -s | grep -v '??' &> /dev/null && {
 		let count_changed=${count_changed}+1
 	}
-	echo "Modified file number is $count_changed"
-	if [ $count_changed -eq 0 ]
+	if [ -z $count_changed ]
 	    then echo "Your Branch is already up-to-date! Nothing to Commit or Push"
+	    mergebranchandpush
 	else
+		echo "Modified file number count is $count_changed"
 		while true; do
 		    read -p "Some untracked files are there. Press Yes to continue by adding all the files? Press y/n" yn 
 		    case $yn in
@@ -84,22 +103,6 @@ function maincontrolmethod {
 		    		echo "Please enter the commit message";
 					read input_message
 					git commit -m "$input_message";
-			        read -p "Do you wanna merge all the commit message together in one?Press Yes to continue by adding all the files? Press y/n" yn 
-			        case $yn in
-				        [Yy]* ) 
-							echo "Here is your commit log";
-							git log --pretty=format:"%h - %an";
-							echo "Please copy and paste the commit head that you want to make the commit merger head";
-							read input_mergerhead;
-							git reset --soft $input_mergerhead;
-							git commit --amend;
-							mergebranchandpush
-						    ;;
-				        [Nn]* ) 
-							mergebranchandpush
-							;;
-				        * )	echo 'Please answer yes or no.';;
-				    esac
 					mergebranchandpush
 					;;
 				[Nn]* ) 
