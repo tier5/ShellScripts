@@ -97,6 +97,7 @@ function maincontrolmethod {
 	fi
 }
 
+# This is the start point of scripts main method 
 while true; do
 	echo "Welcome to our application.";
 	echo "Please provide full path for your project folder.";
