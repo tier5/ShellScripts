@@ -8,6 +8,22 @@ function pullandpush {
 	read -p "Do you to want push this branch to remote branch? Press y/n" yn
     case $yn in
         [Yy]* ) 
+			read -p "Do you wanna merge all the commit message together in one?Press Yes to continue by adding all the files? Press y/n" yn 
+	        case $yn in
+		        [Yy]* ) 
+					echo "Here is your commit log";
+					git log --oneline;
+					echo "Please copy and paste the commit head that you want to make the commit merger head";
+					read input_mergerhead;
+					git reset --soft $input_mergerhead;
+					git commit --amend;
+					mergebranchandpush
+				    ;;
+		        [Nn]* ) 
+					mergebranchandpush
+					;;
+		        * )	echo 'Please answer yes or no.';;
+		    esac
 			git pull origin $current_branch_name;
 			git push origin $current_branch_name;
 			echo 'Thanks for using this application!!'; 
@@ -84,22 +100,6 @@ function maincontrolmethod {
 		    		echo "Please enter the commit message";
 					read input_message
 					git commit -m "$input_message";
-			        read -p "Do you wanna merge all the commit message together in one?Press Yes to continue by adding all the files? Press y/n" yn 
-			        case $yn in
-				        [Yy]* ) 
-							echo "Here is your commit log";
-							git log --pretty=format:"%h - %an";
-							echo "Please copy and paste the commit head that you want to make the commit merger head";
-							read input_mergerhead;
-							git reset --soft $input_mergerhead;
-							git commit --amend;
-							mergebranchandpush
-						    ;;
-				        [Nn]* ) 
-							mergebranchandpush
-							;;
-				        * )	echo 'Please answer yes or no.';;
-				    esac
 					mergebranchandpush
 					;;
 				[Nn]* ) 
