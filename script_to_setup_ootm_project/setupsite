@@ -1,0 +1,52 @@
+#!/bin/bash
+#Author: Tier5
+#Descripttion: This application will setup the full Odessy Of The Mind Project. Only You need to modify the config files for wordpress and laravel
+
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install apache2
+sudo apt-get install mysql-server php5 libapache2-mod-php5 php5-mcrypt php5-mysql php5-cgi php5-cli php5-curl php5-common php5-gd php5-gmp
+sudo apt-get update && sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:ondrej/php5-5.6
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install php5
+sudo mysql_secure_installation
+sudo apt-get install phpmyadmin;
+composer global require "laravel/installer";
+export PATH="~/.composer/vendor/bin:$PATH";
+sudo apt-get install npm;
+sudo npm -g install nodejs;
+sudo a2enmod rewrite
+sudo service apache2 restart
+cd /var/www/
+sudo rm -rf html/
+git clone https://bitbucket.org/cirruslynx/ootm_wordpress.git
+sudo mv ootm_wordpress html
+cd /var/www/html/
+git fetch
+git checkout dev
+sudo cp config_local.php config.php
+sudo cp .htaccess_local .htaccess
+echo "Now create the database as ootm. Command is 'CREATE DATABASE ootm;'. Then write 'exit;'";
+mysql -u root -p
+mysql -u root -p ootm <SQL/latest_database_06_24.sql
+sudo chmod -R 777 wp-content/ 
+echo "You are almost done. Now you have to modify the wp-config.php file and the .htaccess file";
+echo "And also on your browser visit localhost/searchreplacedb2.php and then search for localhost/ootm and replace it with localhost on step 3."
+echo "We are going to setup the Laravel site now!"
+
+sudo git clone https://bitbucket.org/cirruslynx/ootm_laravel.git
+sudo mv ootm_laravel dashboard
+cd /var/www/html/dashboard
+git fetch
+git checkout dev
+sudo cp .env_local .env
+sudo cp .htaccess_local .htaccess
+sudo composer install
+php artisan key:generate
+cd /var/www/html/dashboard/config
+cp database_local.php database.php
+sudo chmod -R 777 storage/
+sudo chmod -R 777 bootstrap/cache
+
+echo "We are done for installation everything. Now you have to modify the .env and /dashboard/config/database.php file";
+echo "Now modify the Auth0 account with your current account setup and visit http://localhost for Wordpress site and  http://localhost/dashboard/ for laravel site!"
