@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd /etc/apache2/sites-enabled
+sudo rm *
+cd /etc/apache2/sites-available
+sudo a2ensite $1.conf
+sudo service apache2 restart
