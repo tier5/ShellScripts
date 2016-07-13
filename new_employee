@@ -5,4 +5,5 @@ git clone https://github.com/tier5/ShellScripts
 cd ShellScripts
 git fetch
 git checkout ubuntu
+export PATH=$PATH:.
 echo " PATH=$PATH:." >> ~/.bashrc
