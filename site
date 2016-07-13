@@ -3,11 +3,19 @@ sudo mkdir /var/www/$1
 cd /var/www/$1
 sudo git init
 
-
-sudo cat <<EOF > /var/www/$1/index.html
-$1 site is running
-
-EOF
+if [ -n "$2" ]
+then
+	git remote add origin $2
+	git fetch
+	if [ -n "$3" ]
+	then
+	git checkout $3
+	git pull origin $3
+	else
+	git checkout master
+	git pull origin master
+	fi
+fi
 
 
 sudo cat <<EOF > /etc/apache2/sites-available/$1.conf

@@ -1,0 +1,8 @@
+#!/bin/bash
+apt-get update
+apt-get install git
+git clone https://github.com/tier5/ShellScripts
+cd ShellScripts
+git fetch
+git checkout ubuntu
+echo " PATH=$PATH:." >> ~/.bashrc
