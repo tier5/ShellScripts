@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo echo -e '\nHOST '$1 '\nHOSTNAME '$2 '\nUSER '$3 >> ~/.ssh/config
