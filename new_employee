@@ -6,4 +6,6 @@ cd ShellScripts
 git fetch
 git checkout ubuntu
 export PATH=$PATH:.
-echo " PATH=$PATH:." >> ~/.bashrc
+cd ~
+sudo echo " PATH=$PATH:~/ShellScripts" >> ~/.bashrc
+source ~/.bashrc
