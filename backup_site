@@ -1,18 +1,16 @@
 #!/bin/bash
-
+@echo on
 #Save starting path
 start=$(pwd)
 #Move to folder you want to backup
 cd $1
 #dump the desired database
-sudo mysqldump -u $2 -p $3 > $3.sql
+mysqldump -u $2 -ptoor $3 > $3.sql
 sudo mkdir SQL
 sudo mv $3.sql SQL/
 #go back to starting dir
 cd $start
 today=`date '+%Y_%m_%d'`;
-zip -r $1_$today $1
+sudo zip -r $1_$today $1
 cd $1
 sudo rm -rf SQL
-cd $start
-#logic for ftp to remote server, needs to be edited per user
