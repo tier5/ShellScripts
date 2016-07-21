@@ -11,6 +11,8 @@ sudo mv $3.sql SQL/
 #go back to starting dir
 cd $start
 today=`date '+%Y_%m_%d'`;
-zip -r $today $1
+zip -r $1_$today $1
 cd $1
 sudo rm -rf SQL
+cd $start
+#logic for ftp to remote server, needs to be edited per user
