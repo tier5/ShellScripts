@@ -1,0 +1,6 @@
+#!/bin/bash
+cd $1
+git config  user.name "$2"
+git config  user.email "$3"
+git config core.fileMode false
+git config  color.ui true
