@@ -1,0 +1,65 @@
+#!/bin/bash
+
+
+echo 'Setting up live site....'
+echo 'Bare repo set up at ~/'$1
+echo 'Setting up GIT_WORK_TREE at /var/www/'$1
+git init --bare ~/$1
+sudo mkdir /var/www/$1
+echo "GIT_WORK_TREE=/var/www/$1 git checkout prod -f" >> ~/$1/hooks/post-receive
+chmod +x ~/$1/hooks/post-receive 
+
+
+echo 'Setting up Staging site....'
+echo 'Bare repo set up at ~/stage.'$1
+echo 'Setting up GIT_WORK_TREE at /var/www/stage.'$1
+git init --bare ~/stage.$1
+sudo mkdir /var/www/stage.$1
+echo "GIT_WORK_TREE=/var/www/stage.$1 git checkout stage -f" >> ~/stage.$1/hooks/post-receive
+chmod +x ~/stage.$1/hooks/post-receive 
+
+
+echo 'Setting up Development site....'
+echo 'Bare repo set up at ~/dev.'$1
+echo 'Setting up GIT_WORK_TREE at /var/www/dev.'$1
+git init --bare ~/dev.$1
+sudo mkdir /var/www/dev.$1
+echo "GIT_WORK_TREE=/var/www/dev.$1 git checkout dev -f" >> ~/dev.$1/hooks/post-receive
+chmod +x ~/dev.$1/hooks/post-receive 
+
+
+sudo cat <<EOF > /etc/apache2/sites-available/$1.conf
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/$1
+<Directory /var/www/$1>
+        AllowOverride All
+</Directory>
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+EOF
+
+sudo cat <<EOF > /etc/apache2/sites-available/stage.$1.conf
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/stage.$1
+<Directory /var/www/stage.$1>
+        AllowOverride All
+</Directory>
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+EOF
+
+sudo cat <<EOF > /etc/apache2/sites-available/dev.$1.conf
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/dev.$1
+<Directory /var/www/dev.$1>
+        AllowOverride All
+</Directory>
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+EOF
